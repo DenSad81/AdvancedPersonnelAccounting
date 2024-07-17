@@ -45,7 +45,6 @@ class Program
 
                 case CommandDeleteFile:
                     DeleteEmpluae(files);
-                    DeleteElementsWithEmptyValue(files);
                     break;
 
                 case CommandSerchInFiles:
@@ -67,16 +66,10 @@ class Program
         Console.Write("Inpout vacancy of man: ");
         string vacancy = Console.ReadLine();
 
-        foreach (var file in files)
-        {
-            if (file.Key == vacancy)
-            {
-                file.Value.Add(lastName);
-                return;
-            }
-        }
-
-        files.Add(vacancy, new List<string> { lastName });
+        if (files.ContainsKey(vacancy))
+            files[vacancy].Add(lastName);
+        else
+            files.Add(vacancy, new List<string> { lastName });
     }
 
     static void PrintAllFiles(Dictionary<string, List<string>> files)
@@ -96,31 +89,22 @@ class Program
     {
         Console.Write("Input last name of man: ");
         string lastName = Console.ReadLine();
+        string vacancy = "";
 
         foreach (var file in files)
         {
             for (int i = 0; i < file.Value.Count; i++)
             {
                 if (file.Value[i] == lastName)
+                {
+                    vacancy = file.Key;
                     file.Value.RemoveAt(i);
+                }
             }
         }
-    }
 
-    static void DeleteElementsWithEmptyValue(Dictionary<string, List<string>> files)
-    {
-        List<string> poolEmptyValues = new List<string>();
-
-        foreach (var file in files)
-        {
-            if (file.Value.Count == 0)
-                poolEmptyValues.Add(file.Key);
-        }
-
-        foreach (var poolEmtyValue in poolEmptyValues)
-        {
-            files.Remove(poolEmtyValue);
-        }
+        if (files[vacancy].Count == 0)
+            files.Remove(vacancy);
     }
 
     static void SearchInUserFile(Dictionary<string, List<string>> files)
