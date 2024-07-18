@@ -14,13 +14,13 @@ class Program
         const int CommandSerchInFiles = 4;
         const int CommandExit = 5;
 
-        Dictionary<string, List<string>> files = new Dictionary<string, List<string>>()
+        Dictionary<string, List<string>> dossiers = new Dictionary<string, List<string>>()
             {
                 {"рабочий",new List <string>{ "Дмитрий Петров", "Анатолий Сидоров"} },
                 {"инженер",new List <string>{ "Евгений Смирнов", "Алексей Андреев"} },
                 {"босс",new List <string>{ "Павел Аренок"} },
             };
-        int choiceOfMenu;
+        int userInput;
         bool isRun = true;
 
         while (isRun)
@@ -31,24 +31,24 @@ class Program
             Console.WriteLine($"      {CommandSerchInFiles}-serch in file;");
             Console.WriteLine($"      {CommandExit}-exit;");
             Console.Write("Your shois: ");
-            choiceOfMenu = GetIntFromConsole();
+            userInput = ReadInt();
 
-            switch (choiceOfMenu)
+            switch (userInput)
             {
                 case CommandAddFile:
-                    AddDossier(files);
+                    AddDossier(dossiers);
                     break;
 
                 case CommandPrintAllFiles:
-                    PrintAllFiles(files);
+                    PrintAllDossier(dossiers);
                     break;
 
                 case CommandDeleteFile:
-                    DeleteEmpluae(files);
+                    DeleteEmployee(dossiers);
                     break;
 
                 case CommandSerchInFiles:
-                    SearchInUserFile(files);
+                    SearchInUserDossier(dossiers);
                     break;
 
                 case CommandExit:
@@ -58,63 +58,63 @@ class Program
         }
     }
 
-    static void AddDossier(Dictionary<string, List<string>> files)
+    static void AddDossier(Dictionary<string, List<string>> dossiers)
     {
         Console.Write("Input first and last name of man: ");
-        string lastName = Console.ReadLine();
+        string firstNamelastName = Console.ReadLine();
 
         Console.Write("Inpout vacancy of man: ");
         string vacancy = Console.ReadLine();
 
-        if (files.ContainsKey(vacancy))
-            files[vacancy].Add(lastName);
+        if (dossiers.ContainsKey(vacancy))
+            dossiers[vacancy].Add(firstNamelastName);
         else
-            files.Add(vacancy, new List<string> { lastName });
+            dossiers.Add(vacancy, new List<string> { firstNamelastName });
     }
 
-    static void PrintAllFiles(Dictionary<string, List<string>> files)
+    static void PrintAllDossier(Dictionary<string, List<string>> dossiers)
     {
-        foreach (var file in files)
+        foreach (var dossie in dossiers)
         {
-            Console.Write(file.Key + " ");
+            Console.Write(dossie.Key + " ");
 
-            foreach (var name in file.Value)
+            foreach (var name in dossie.Value)
                 Console.Write("  " + name);
 
             Console.WriteLine();
         }
     }
 
-    static void DeleteEmpluae(Dictionary<string, List<string>> files)
+    static void DeleteEmployee(Dictionary<string, List<string>> dossiers)
     {
         Console.Write("Input vacancy of man: ");
         string vacancy = Console.ReadLine();
         Console.Write("Input id of man: ");
-        int idMan = GetIntFromConsole();
+        int idMan = ReadInt();
 
-        if (idMan < 0 || files[vacancy].Count <= idMan)
+        if (idMan < 0 || dossiers[vacancy].Count <= idMan)
             return;
 
-        if (files.ContainsKey(vacancy))
-            files[vacancy].RemoveAt(idMan);
+        if (dossiers.ContainsKey(vacancy))
+            dossiers[vacancy].RemoveAt(idMan);
 
-        if (files[vacancy].Count == 0)
-            files.Remove(vacancy);
+        if (dossiers[vacancy].Count == 0)
+            dossiers.Remove(vacancy);
     }
 
-    static void SearchInUserFile(Dictionary<string, List<string>> files)
+    static void SearchInUserDossier(Dictionary<string, List<string>> dossiers)
     {
         bool isManPresent = false;
-        Console.Write("Input last name of man: ");
-        string lastName = Console.ReadLine();
+        Console.Write("Input first and last name of man: ");
+        string firstNamelastName = Console.ReadLine();
 
-        foreach (var file in files)
+        foreach (var dossie in dossiers)
         {
-            foreach (var item in file.Value)
+            foreach (var name in dossie.Value)
             {
-                if (item == lastName)
+                if (name == firstNamelastName)
                 {
-                    Console.WriteLine(file.Key + " - " + item);
+                    Console.WriteLine(dossie.Key + " - " + name);
                     isManPresent = true;
                 }
             }
@@ -124,17 +124,12 @@ class Program
             Console.WriteLine("No man is present");
     }
 
-    static int GetIntFromConsole()
+    static int ReadInt()
     {
-        int digitToOut = 0;
-        bool isRun = true;
+        int digitToOut;
 
-        while (isRun)
-        {
-            Console.Write("Введите число: ");
-            string digitFromConsole = Console.ReadLine();
-            isRun = !int.TryParse(digitFromConsole, out digitToOut);
-        }
+        while (int.TryParse(Console.ReadLine(), out digitToOut) == false)
+        { }
 
         return digitToOut;
     }
