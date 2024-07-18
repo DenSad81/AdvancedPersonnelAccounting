@@ -8,11 +8,11 @@ class Program
 {
     static void Main(string[] args)
     {
-        const char CommandAddFile = '1';
-        const char CommandPrintAllFiles = '2';
-        const char CommandDeleteFile = '3';
-        const char CommandSerchInFiles = '4';
-        const char CommandExit = '5';
+        const int CommandAddFile = 1;
+        const int CommandPrintAllFiles = 2;
+        const int CommandDeleteFile = 3;
+        const int CommandSerchInFiles = 4;
+        const int CommandExit = 5;
 
         Dictionary<string, List<string>> files = new Dictionary<string, List<string>>()
             {
@@ -20,7 +20,7 @@ class Program
                 {"инженер",new List <string>{ "Евгений Смирнов", "Алексей Андреев"} },
                 {"босс",new List <string>{ "Павел Аренок"} },
             };
-        char choiceOfMenu;
+        int choiceOfMenu;
         bool isRun = true;
 
         while (isRun)
@@ -31,12 +31,12 @@ class Program
             Console.WriteLine($"      {CommandSerchInFiles}-serch in file;");
             Console.WriteLine($"      {CommandExit}-exit;");
             Console.Write("Your shois: ");
-            choiceOfMenu = Convert.ToChar(Console.ReadLine());
+            choiceOfMenu = GetIntFromConsole();
 
             switch (choiceOfMenu)
             {
                 case CommandAddFile:
-                    AddUserFile(files);
+                    AddDossier(files);
                     break;
 
                 case CommandPrintAllFiles:
@@ -58,9 +58,9 @@ class Program
         }
     }
 
-    static void AddUserFile(Dictionary<string, List<string>> files)
+    static void AddDossier(Dictionary<string, List<string>> files)
     {
-        Console.Write("Inpout last name of man: ");
+        Console.Write("Input first and last name of man: ");
         string lastName = Console.ReadLine();
 
         Console.Write("Inpout vacancy of man: ");
@@ -78,8 +78,8 @@ class Program
         {
             Console.Write(file.Key + " ");
 
-            foreach (var item in file.Value)
-                Console.Write("  " + item);
+            foreach (var name in file.Value)
+                Console.Write("  " + name);
 
             Console.WriteLine();
         }
@@ -87,12 +87,13 @@ class Program
 
     static void DeleteEmpluae(Dictionary<string, List<string>> files)
     {
-        Console.Write("Input first and last name of man: ");
-        string firstNamelastName = Console.ReadLine();
         Console.Write("Input vacancy of man: ");
         string vacancy = Console.ReadLine();
         Console.Write("Input id of man: ");
         int idMan = GetIntFromConsole();
+
+        if (idMan < 0 || files[vacancy].Count <= idMan)
+            return;
 
         if (files.ContainsKey(vacancy))
             files[vacancy].RemoveAt(idMan);
@@ -126,14 +127,13 @@ class Program
     static int GetIntFromConsole()
     {
         int digitToOut = 0;
-        bool stopCikle = true;
+        bool isRun = true;
 
-        while (stopCikle)
+        while (isRun)
         {
             Console.Write("Введите число: ");
             string digitFromConsole = Console.ReadLine();
-            bool isRun = int.TryParse(digitFromConsole, out digitToOut);
-            stopCikle = !isRun;
+            isRun = !int.TryParse(digitFromConsole, out digitToOut);
         }
 
         return digitToOut;
