@@ -89,8 +89,9 @@ class Program
     {
         Console.Write("Input last name of man: ");
         string lastName = Console.ReadLine();
-        string vacancy = "";
+        string vacancy = null;
         int idMan = 0;
+        bool isFind = false;
 
         foreach (var file in files)
         {
@@ -100,9 +101,13 @@ class Program
                 {
                     vacancy = file.Key;
                     idMan = i;
+                    isFind = true;
                 }
             }
         }
+
+        if (isFind == false)
+            return;
 
         files[vacancy].RemoveAt(idMan);
 
