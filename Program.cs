@@ -16,9 +16,9 @@ class Program
 
         Dictionary<string, List<string>> files = new Dictionary<string, List<string>>()
             {
-                {"рабочий",new List <string>{ "Петров", "Сидоров"} },
-                {"инженер",new List <string>{ "Смирнов", "Андреев"} },
-                {"босс",new List <string>{ "Аренок"} },
+                {"рабочий",new List <string>{ "Дмитрий Петров", "Анатолий Сидоров"} },
+                {"инженер",new List <string>{ "Евгений Смирнов", "Алексей Андреев"} },
+                {"босс",new List <string>{ "Павел Аренок"} },
             };
         char choiceOfMenu;
         bool isRun = true;
@@ -87,29 +87,15 @@ class Program
 
     static void DeleteEmpluae(Dictionary<string, List<string>> files)
     {
-        Console.Write("Input last name of man: ");
-        string lastName = Console.ReadLine();
-        string vacancy = null;
-        int idMan = 0;
-        bool isFind = false;
+        Console.Write("Input first and last name of man: ");
+        string firstNamelastName = Console.ReadLine();
+        Console.Write("Input vacancy of man: ");
+        string vacancy = Console.ReadLine();
+        Console.Write("Input id of man: ");
+        int idMan = GetIntFromConsole();
 
-        foreach (var file in files)
-        {
-            for (int i = 0; i < file.Value.Count; i++)
-            {
-                if (file.Value[i] == lastName)
-                {
-                    vacancy = file.Key;
-                    idMan = i;
-                    isFind = true;
-                }
-            }
-        }
-
-        if (isFind == false)
-            return;
-
-        files[vacancy].RemoveAt(idMan);
+        if (files.ContainsKey(vacancy))
+            files[vacancy].RemoveAt(idMan);
 
         if (files[vacancy].Count == 0)
             files.Remove(vacancy);
@@ -135,5 +121,21 @@ class Program
 
         if (isManPresent == false)
             Console.WriteLine("No man is present");
+    }
+
+    static int GetIntFromConsole()
+    {
+        int digitToOut = 0;
+        bool stopCikle = true;
+
+        while (stopCikle)
+        {
+            Console.Write("Введите число: ");
+            string digitFromConsole = Console.ReadLine();
+            bool isRun = int.TryParse(digitFromConsole, out digitToOut);
+            stopCikle = !isRun;
+        }
+
+        return digitToOut;
     }
 }
