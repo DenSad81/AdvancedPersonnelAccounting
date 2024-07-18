@@ -90,6 +90,7 @@ class Program
         Console.Write("Input last name of man: ");
         string lastName = Console.ReadLine();
         string vacancy = "";
+        int idMan = 0;
 
         foreach (var file in files)
         {
@@ -98,10 +99,12 @@ class Program
                 if (file.Value[i] == lastName)
                 {
                     vacancy = file.Key;
-                    file.Value.RemoveAt(i);
+                    idMan = i;
                 }
             }
         }
+
+        files[vacancy].RemoveAt(idMan);
 
         if (files[vacancy].Count == 0)
             files.Remove(vacancy);
