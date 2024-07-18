@@ -60,16 +60,16 @@ class Program
 
     static void AddDossier(Dictionary<string, List<string>> dossiers)
     {
-        Console.Write("Input first and last name of man: ");
-        string firstNamelastName = Console.ReadLine();
+        Console.Write("Input full name of man: ");
+        string fullName = Console.ReadLine();
 
         Console.Write("Inpout vacancy of man: ");
         string vacancy = Console.ReadLine();
 
         if (dossiers.ContainsKey(vacancy))
-            dossiers[vacancy].Add(firstNamelastName);
+            dossiers[vacancy].Add(fullName);
         else
-            dossiers.Add(vacancy, new List<string> { firstNamelastName });
+            dossiers.Add(vacancy, new List<string> { fullName });
     }
 
     static void PrintAllDossier(Dictionary<string, List<string>> dossiers)
@@ -105,14 +105,14 @@ class Program
     static void SearchInUserDossier(Dictionary<string, List<string>> dossiers)
     {
         bool isManPresent = false;
-        Console.Write("Input first and last name of man: ");
-        string firstNamelastName = Console.ReadLine();
+        Console.Write("Input full name of man: ");
+        string fullName = Console.ReadLine();
 
         foreach (var dossie in dossiers)
         {
             foreach (var name in dossie.Value)
             {
-                if (name == firstNamelastName)
+                if (name == fullName)
                 {
                     Console.WriteLine(dossie.Key + " - " + name);
                     isManPresent = true;
@@ -126,11 +126,11 @@ class Program
 
     static int ReadInt()
     {
-        int digitToOut;
+        int number;
 
-        while (int.TryParse(Console.ReadLine(), out digitToOut) == false)
+        while (int.TryParse(Console.ReadLine(), out number) == false)
         { }
 
-        return digitToOut;
+        return number;
     }
 }
